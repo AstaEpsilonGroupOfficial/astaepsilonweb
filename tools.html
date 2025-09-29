@@ -61,36 +61,55 @@
 
   <!-- Image → PDF JS -->
   <script>
-    const { jsPDF } = window.jspdf;
-    document.getElementById("imageToPdfBtn").addEventListener("click", () => {
-      const files = document.getElementById("imageInput").files;
-      if (!files.length) { alert("Please select at least one image!"); return; }
+  const { jsPDF } = window.jspdf;
 
-      const pdf = new jsPDF();
-      let loaded = 0;
+  document.getElementById("imageToPdfBtn").addEventListener("click", () => {
+    const files = document.getElementById("imageInput").files;
+    if (!files.length) { 
+      alert("Please select at least one image!"); 
+      return; 
+    }
 
-      Array.from(files).forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imgData = e.target.result;
-          const img = new Image();
-          img.src = imgData;
-          img.onload = function() {
-            const ratio = img.width / img.height;
-            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
-            const pdfHeight = pdfWidth / ratio;
-            if(index > 0) pdf.addPage();
-            pdf.addImage(img, 'JPEG', 10, 10, pdfWidth, pdfHeight);
-            loaded++;
-            if (loaded === files.length) {
-              pdf.save("images.pdf");
-            }
-          }
-        }
-        reader.readAsDataURL(file);
-      });
-    });
-  </script>
+    const pdf = new jsPDF();
+
+    const processImage = (index) => {
+      if (index >= files.length) {
+        pdf.save("images.pdf");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = function() {
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const imgWidth = img.width;
+          const imgHeight = img.height;
+
+          // Scale image to fit page while preserving aspect ratio
+          const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+          const displayWidth = imgWidth * ratio;
+          const displayHeight = imgHeight * ratio;
+
+          // Center the image
+          const marginX = (pageWidth - displayWidth) / 2;
+          const marginY = (pageHeight - displayHeight) / 2;
+
+          if (index > 0) pdf.addPage();
+          pdf.addImage(img, 'JPEG', marginX, marginY, displayWidth, displayHeight);
+
+          processImage(index + 1);
+        };
+      };
+      reader.readAsDataURL(files[index]);
+    };
+
+    processImage(0);
+  });
+</script>
 
   <!-- Footer -->
   <footer>
@@ -106,3 +125,4 @@
 
 </body>
 </html>
+
