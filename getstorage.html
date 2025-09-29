@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asta Epsilon Group | Get Cloud Storage</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="assets/asta epsilon group 2.png" alt="Asta Epsilon Group Logo" class="logo-img">
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="about.html">About Us</a></li>
+        <li class="dropdown">
+          <a href="services.html" class="active">Services ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="design-studio.html">Design Studio</a></li>
+            <li><a href="vps.html">VPS</a></li>
+            <li><a href="storage.html">Storage Solutions</a></li>
+          </ul>
+        </li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Flashy Banner -->
+  <section class="banner">
+    <h1>Secure Cloud Storage Plans starting at just ₹69/mo!</h1>
+  </section>
+
+  <!-- Storage Configurator Section -->
+  <section class="vps-config">
+    <h2>Select Your Storage Plan</h2>
+
+    <!-- Plan Type Selection -->
+    <div class="config-group">
+      <h3>Plan Type</h3>
+      <div class="button-group" id="planType">
+        <button data-value="monthly" class="active">Monthly</button>
+        <button data-value="annual">Annual</button>
+      </div>
+    </div>
+
+    <!-- Storage Amount Selection -->
+    <div class="config-group">
+      <h3>Storage Amount</h3>
+      <div class="button-group" id="storage">
+        <button data-monthly="69" data-annual="799" class="active">50 GB</button>
+        <button data-monthly="129" data-annual="1499">100 GB</button>
+        <button data-monthly="249" data-annual="2899">200 GB</button>
+        <button data-monthly="639" data-annual="7599">500 GB</button>
+        <button data-monthly="1249" data-annual="14499">1 TB</button>
+      </div>
+    </div>
+
+    <!-- Price Display -->
+    <div class="price-display">
+      <h3>Total Price: ₹<span id="price">69</span></h3>
+    </div>
+
+    <!-- CTA -->
+    <a href="contact.html" class="btn-primary">Get This Plan</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Asta Epsilon Group. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="mailto:hr.astaepsilongroup@gmail.com">Email Us</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const planButtons = document.querySelectorAll("#planType button");
+    const storageButtons = document.querySelectorAll("#storage button");
+    const priceDisplay = document.getElementById("price");
+
+    let currentPlan = "monthly";
+    let currentStorageBtn = storageButtons[0];
+    let currentPrice = parseInt(currentStorageBtn.dataset[currentPlan]);
+
+    function animatePrice(newPrice) {
+      let start = currentPrice;
+      let end = newPrice;
+      let duration = 500;
+      let startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = Math.min((timestamp - startTime) / duration, 1);
+        let value = Math.floor(start + (end - start) * progress);
+        priceDisplay.textContent = value;
+
+        if (progress < 1) requestAnimationFrame(step);
+        else currentPrice = newPrice;
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    planButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        planButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentPlan = btn.dataset.value;
+        animatePrice(parseInt(currentStorageBtn.dataset[currentPlan]));
+      });
+    });
+
+    storageButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        storageButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentStorageBtn = btn;
+        animatePrice(parseInt(btn.dataset[currentPlan]));
+      });
+    });
+
+    // Initial display
+    animatePrice(currentPrice);
+  </script>
+</body>
+</html>

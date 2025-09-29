@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asta Epsilon Group | Get a VPS</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="assets/asta epsilon group 2.png" alt="Asta Epsilon Group Logo" class="logo-img">
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="about.html">About Us</a></li>
+        <!-- Dropdown Services -->
+        <li class="dropdown">
+          <a href="services.html" class="active">Services ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="design-studio.html">Design Studio</a></li>
+            <li><a href="vps.html">VPS</a></li>
+            <li><a href="storage.html">Storage Solutions</a></li>
+          </ul>
+        </li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Flashy Banner -->
+  <section class="banner">
+    <h1>Fully Managed VPS Solutions starting at just ₹99!</h1>
+  </section>
+
+  <!-- VPS Configurator Section -->
+  <section class="vps-config">
+    <h2>Select Your Specifications</h2>
+    
+    <!-- CPU Selection -->
+    <div class="config-group">
+      <h3>Number of Cores</h3>
+      <div class="button-group" id="cores">
+        <button data-value="1" class="active">1 Core</button>
+        <button data-value="2">2 Cores</button>
+        <button data-value="4">4 Cores</button>
+      </div>
+    </div>
+
+    <!-- RAM Selection -->
+    <div class="config-group">
+      <h3>RAM</h3>
+      <div class="button-group" id="ram">
+        <button data-value="1" class="active">1 GB</button>
+        <button data-value="2">2 GB</button>
+        <button data-value="4">4 GB</button>
+        <button data-value="8">8 GB</button>
+        <button data-value="16">16 GB</button>
+      </div>
+    </div>
+
+    <!-- Price Display -->
+    <div class="price-display">
+      <h3>Total Price: ₹<span id="price">99</span>/month</h3>
+    </div>
+
+    <!-- CTA -->
+    <a href="contact.html" class="btn-primary">Get This VPS</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Asta Epsilon Group. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="mailto:hr.astaepsilongroup@gmail.com">Email Us</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const coreButtons = document.querySelectorAll("#cores button");
+    const ramButtons = document.querySelectorAll("#ram button");
+    const priceDisplay = document.getElementById("price");
+
+    let cores = 1;
+    let ram = 1;
+    let currentPrice = 99;
+
+    function calculatePrice() {
+      let basePrice = 0;
+      if (cores === 1) basePrice = 99;
+      else if (cores === 2) basePrice = 199;
+      else if (cores === 4) basePrice = 399;
+
+      let extraRam = (ram - 1) * 50;
+      return basePrice + extraRam;
+    }
+
+    function animatePrice(newPrice) {
+      let start = currentPrice;
+      let end = newPrice;
+      let duration = 500;
+      let startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = Math.min((timestamp - startTime) / duration, 1);
+        let value = Math.floor(start + (end - start) * progress);
+        priceDisplay.textContent = value;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          currentPrice = newPrice;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function updateSelection(buttons, type) {
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          if (type === "cores") cores = parseInt(btn.dataset.value);
+          if (type === "ram") ram = parseInt(btn.dataset.value);
+          animatePrice(calculatePrice());
+        });
+      });
+    }
+
+    updateSelection(coreButtons, "cores");
+    updateSelection(ramButtons, "ram");
+  </script>
+
+</body>
+</html>

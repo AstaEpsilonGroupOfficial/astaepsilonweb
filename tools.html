@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asta Epsilon Group | Tools</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- jsPDF for Image → PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html"><img src="assets/asta epsilon group 2.png" alt="Asta Epsilon Group Logo" class="logo-img"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="about.html">About Us</a></li>
+        <li class="dropdown">
+          <a href="services.html">Services ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="design-studio.html">Design Studio</a></li>
+            <li><a href="vps.html">VPS</a></li>
+            <li><a href="storage.html">Storage Solutions</a></li>
+          </ul>
+        </li>
+        <li><a href="tools.html" class="active">Tools</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('assets/tools-bg.jpg') center/cover no-repeat;">
+    <div class="hero-content">
+      <h1>Our Tools</h1>
+      <p>Convert files seamlessly with our lightweight in-browser tools.</p>
+    </div>
+  </section>
+
+  <section class="tools">
+
+    <!-- Image to PDF Converter -->
+    <div class="tool-section">
+      <h2>Image to PDF Converter</h2>
+      <input type="file" id="imageInput" accept="image/*" multiple>
+      <button id="imageToPdfBtn">Convert</button>
+    </div>
+
+    <h1>More tools coming soon!</h1>
+
+  </section>
+
+  <!-- Image → PDF JS -->
+  <script>
+    const { jsPDF } = window.jspdf;
+    document.getElementById("imageToPdfBtn").addEventListener("click", () => {
+      const files = document.getElementById("imageInput").files;
+      if (!files.length) { alert("Please select at least one image!"); return; }
+
+      const pdf = new jsPDF();
+      let loaded = 0;
+
+      Array.from(files).forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgData = e.target.result;
+          const img = new Image();
+          img.src = imgData;
+          img.onload = function() {
+            const ratio = img.width / img.height;
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+            const pdfHeight = pdfWidth / ratio;
+            if(index > 0) pdf.addPage();
+            pdf.addImage(img, 'JPEG', 10, 10, pdfWidth, pdfHeight);
+            loaded++;
+            if (loaded === files.length) {
+              pdf.save("images.pdf");
+            }
+          }
+        }
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Asta Epsilon Group. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="mailto:hr.astaepsilongroup@gmail.com">Email Us</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>

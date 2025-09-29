@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asta Epsilon Group | Contact</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="assets/asta epsilon group 2.png" alt="Asta Epsilon Group Logo" class="logo-img">
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="about.html">About Us</a></li>
+        <li class="dropdown">
+          <a href="services.html">Services ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="design-studio.html">Design Studio</a></li>
+            <li><a href="vps.html">VPS</a></li>
+            <li><a href="storage.html">Storage Solutions</a></li>
+          </ul>
+        </li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('assets/contact-bg.jpg') center/cover no-repeat;">
+    <div class="hero-content">
+      <h1>Contact Us</h1>
+      <p>Have a question, feedback, or request? We’d love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form-section">
+    <h2>Get in Touch</h2>
+    <form action="https://formspree.io/f/xblzdeab" method="POST">
+      
+      <!-- Name -->
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+      <!-- Reason -->
+      <label for="reason">Reason for Contact</label>
+      <select id="reason" name="reason" required>
+        <option value="">-- Select Reason --</option>
+        <option value="Get Quotations">Get Quotations (Website/App/Software)</option>
+        <option value="VPS Inquiry">VPS Inquiry</option>
+        <option value="Storage Inquiry">Storage Inquiry</option>
+        <option value="Complaints/Grievances">Complaints/Grievances</option>
+        <option value="Feedback">Feedback</option>
+      </select>
+
+      <!-- Message -->
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="8" placeholder="Enter your message here..." required></textarea>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-primary">Send Message</button>
+
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Asta Epsilon Group. All rights reserved. <br> Forms managed by Formspree</p>
+      <ul class="footer-links">
+        <li><a href="mailto:hr.astaepsilongroup@gmail.com">Email Us</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
